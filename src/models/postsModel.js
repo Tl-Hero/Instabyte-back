@@ -4,7 +4,7 @@ import conectarAoBanco from "../config/dbConfig.js";
 const conexao = await conectarAoBanco(process.env.STRING_CONEXAO);
 
 // Função assíncrona para obter todos os posts do banco de dados MongoDB
-export default async function getTodosPosts() {
+export async function getTodosPosts() {
     // Conecta ao banco de dados 'imersao-instabytes'
     const db = conexao.db("imersao-instabytes");
 
@@ -15,3 +15,12 @@ export default async function getTodosPosts() {
     // O método `toArray()` converte o cursor de resultados em um array de objetos
     return colecao.find().toArray();
 }
+
+export async function criarPost(novoPost) {
+    // Obtém o banco de dados
+    const db = conexao.db("imersao-instabytes");
+    // Seleciona a coleção de posts
+    const colecao = db.collection("posts");
+    // Insere um novo post
+    return colecao.insertOne(novoPost);
+  }
